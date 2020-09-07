@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="9px" height="16px" viewBox="0 0 9 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60 (88103) - https://sketch.com -->
+    <title>Path</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Главная" transform="translate(-587.000000, -793.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="Первый-экран">
+                <g id="Group-2" transform="translate(370.000000, 32.000000)">
+                    <g id="Group-33" transform="translate(0.000000, 748.000000)">
+                        <g id="down-arrow-(1)-2" transform="translate(217.000000, 13.000000)">
+                            <g id="down-arrow-(1)">
+                                <path d="M11.7880702,4.18941007 C11.5444737,3.94966906 11.1495029,3.94966906 10.9059064,4.18941007 L4.48538012,10.5082878 L-1.9351462,4.18941007 C-2.17874269,3.94966906 -2.57371345,3.94966906 -2.81730994,4.18941007 C-3.06090643,4.42915108 -3.06090643,4.8178705 -2.81730994,5.05761151 L4.04429825,11.8106187 C4.28789474,12.0503597 4.6828655,12.0503597 4.92646199,11.8106187 L11.7880702,5.05761151 C12.0316667,4.81784173 12.0316667,4.42915108 11.7880702,4.18941007 Z" id="Path" transform="translate(4.485380, 8.000014) rotate(-90.000000) translate(-4.485380, -8.000014) "></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

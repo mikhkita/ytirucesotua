@@ -1,4 +1,9 @@
-$(document).ready(function(){	
+$(document).ready(function(){
+
+    var isDesktop = false,
+        isTablet = false,
+        isMobile = false;
+
     function resize(){
        if( typeof( window.innerWidth ) == 'number' ) {
             myWidth = window.innerWidth;
@@ -10,6 +15,20 @@ $(document).ready(function(){
         } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
             myWidth = document.body.clientWidth;
             myHeight = document.body.clientHeight;
+        }
+
+        if( myWidth >= 1024 ){
+            isDesktop = true;
+            isTablet = false;
+            isMobile = false;
+        }else if( myWidth > 767 && myWidth < 1024 ){
+            isDesktop = false;
+            isTablet = true;
+            isMobile = false;
+        }else{
+            isDesktop = false;
+            isTablet = false;
+            isMobile = true;
         }
     }
     $(window).resize(resize);
@@ -40,6 +59,110 @@ $(document).ready(function(){
         }
     }
     $.fn.placeholder();
+
+    function initCustomNav($slider, slick) {
+        if(slick.slideCount > 0){
+            $slider.find(".b-slider-custom-nav-slides .count").text(slick.slideCount);
+            var widthDot = (100 / slick.slideCount).toFixed(2);
+            $slider.find(".b-slider-custom-nav-dots .slick-dots li").css("width", widthDot+"%");
+        }
+    }
+
+    // ===== Слайдер в хедере =====
+
+    $(".b-header-back-slider").slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: false,
+        dots: false,
+        asNavFor: ".b-header-content-slider"
+    });
+
+    $(".b-header-content-slider").on("init", function(event, slick){
+        initCustomNav($(".b-header-content"), slick);
+    });
+    $(".b-header-content-slider").slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        asNavFor: ".b-header-back-slider",
+        fade: true,
+        dots: true,
+        arrows: true,
+        appendArrows: $(".b-header-content .b-slider-custom-nav"),
+        appendDots: $(".b-header-content .b-slider-custom-nav-dots"),
+        prevArrow: '<div class="slick-arrow icon-arrow-left"></div>',
+        nextArrow: '<div class="slick-arrow icon-arrow-right"></div>'
+    });
+    $(".b-header-content-slider").on('beforeChange', function(event, slick, currentSlide, nextSlide){
+        $(".b-header-content .b-slider-custom-nav-slides .current").text(nextSlide+1);
+    });
+
+    // ===== Слайдер с табами =====
+
+    $(".b-tab-slider-list").on('init', function(event, slick){
+        initCustomNav($(".b-tab-slider-cont"), slick);
+        setSliderArrowPosition(slick);
+    });
+
+    $(document).find(".b-tab-slider-list").each(function(){
+        $(this).slick({
+            dots: false,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            cssEase: 'ease', 
+            fade: true,
+            speed: 500,
+            dots: true,
+            arrows: true,
+            appendArrows: $(".b-tab-slider-cont .b-slider-custom-nav"),
+            appendDots: $(".b-tab-slider-cont .b-slider-custom-nav-dots"),
+            prevArrow: '<div class="slick-arrow icon-arrow-left"></div>',
+            nextArrow: '<div class="slick-arrow icon-arrow-right"></div>'
+        });
+    });
+
+    function setSliderArrowPosition(slick, nextSlide = 0){
+        var tabs = slick.$slider.parents('.b-tab-block').find('.b-slider-custom-nav');
+        if (isMobile) {
+            var bottom = slick.$slider.height() - slick.$slides.eq(nextSlide).height();
+        } else {
+            var bottom = slick.$slider.height() - slick.$slides.eq(nextSlide).height() + 21;
+        }
+
+        slick.$slider.parents('.b-tab-block').find('.b-slider-custom-nav').css('bottom', bottom);
+    }
+
+    $(".b-tab-slider-list").on('beforeChange', function(event, slick, currentSlide, nextSlide){
+        $(".b-tab-slider-cont .b-slider-custom-nav-slides .current").text(nextSlide+1);
+        var tabs = slick.$slider.parents('.b-tab-block').find('.b-tab-item');
+        setSliderArrowPosition(slick, nextSlide);
+        tabs.removeClass('active');
+        tabs.eq(nextSlide).addClass("active");
+    });
+
+    $(document).on('click', '.b-tab-item', function(){
+        id = $(this).attr("id");
+        $(this).parents('.b-tab-block').find(".b-tab-slider-list").slick('slickGoTo', $('.b-tab-slider-list [data-id='+id+']').attr('data-slick-index'), true);
+    });
+
+    // ===== Слайдер с отзывами =====
+
+    $(".b-reviews-slider").on("init", function(event, slick){
+        initCustomNav($(".b-reviews"), slick);
+    });
+    $(".b-reviews-slider").slick({
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        dots: true,
+        arrows: true,
+        appendArrows: $(".b-reviews .b-slider-custom-nav"),
+        appendDots: $(".b-reviews .b-slider-custom-nav-dots"),
+        prevArrow: '<div class="slick-arrow icon-arrow-left"></div>',
+        nextArrow: '<div class="slick-arrow icon-arrow-right"></div>'
+    });
+    $(".b-reviews-slider").on('beforeChange', function(event, slick, currentSlide, nextSlide){
+        $(".b-reviews .b-slider-custom-nav-slides .current").text(nextSlide+1);
+    });
 
     // $(".b-step-slider").slick({
     //     dots: true,
