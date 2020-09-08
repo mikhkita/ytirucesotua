@@ -164,33 +164,54 @@ $(document).ready(function(){
         $(".b-reviews .b-slider-custom-nav-slides .current").text(nextSlide+1);
     });
 
-    // $(".b-step-slider").slick({
-    //     dots: true,
-    //     slidesToShow: 1,
-    //     slidesToScroll: 1,
-    //     infinite: true,
-    //     cssEase: 'ease', 
-    //     speed: 500,
-    //     arrows: true,
-    //     prevArrow: '<button type="button" class="slick-prev slick-arrow icon-arrow-left"></button>',
-    //     nextArrow: '<button type="button" class="slick-next slick-arrow icon-arrow-right"></button>',
-    //     touchThreshold: 100
-    // });
+    initialize();
 
-    // // Первая анимация элементов в слайде
-    // $(".b-step-slide[data-slick-index='0'] .slider-anim").addClass("show");
+    function initialize() {
+        var myPlace = new google.maps.LatLng(56.5273681, 84.98542719999999);
+        var myOptions = {
+            zoom: 16,
+            center: new google.maps.LatLng(56.5283681, 84.9855171),
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDefaultUI: true,
+            scrollwheel: false,
+            zoomControl: true
+        }
 
-    // // Кастомные переключатели (тумблеры)
-    // $(".b-step-slider").on('beforeChange', function(event, slick, currentSlide, nextSlide){
-    //     $(".b-step-tabs li.active").removeClass("active");
-    //     $(".b-step-tabs li").eq(nextSlide).addClass("active");
-    // });
+        var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-    // // Анимация элементов в слайде
-    // $(".b-step-slider").on('afterChange', function(event, slick, currentSlide, nextSlide){
-    //     $(".b-step-slide .slider-anim").removeClass("show");
-    //     $(".b-step-slide[data-slick-index='"+currentSlide+"'] .slider-anim").addClass("show");
-    // });
+        addMarker(myPlace, map);
+
+        map.addListener('drag',function(event) {
+            var bubble = $(document).find('.b-map-bubble');
+
+            if (bubble.hasClass('show')) {
+                bubble.removeClass('show');
+            }
+        });
+    }
+
+    function addMarker(latlng,map) {
+        var marker = new google.maps.Marker({
+            position: latlng,
+            icon: {
+                url: "i/pin.svg", // url
+                scaledSize: new google.maps.Size(50, 67), // scaled size
+                origin: new google.maps.Point(0,0), // origin
+                anchor: new google.maps.Point(19,58) // anchor
+            },
+            map: map,
+        });
+
+        marker.addListener('click',function(event) {
+            var bubble = $(document).find('.b-map-bubble');
+            
+            if (!bubble.hasClass('show')) {
+                bubble.addClass('show');
+            }
+            
+            map.panTo(new google.maps.LatLng(56.5283681, 84.9855171));
+        });
+    }
 
 
     
